@@ -46,7 +46,6 @@ function LinkDataForm({
 		);
 		if (response.ok) {
 			const data = await response.json();
-			console.log(data);
 			form.setValue("title", data.ogTitle);
 			form.setValue("description", data.ogDescription);
 			form.setValue("imgSrc", data.ogImage[0].url);
