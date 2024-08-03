@@ -40,6 +40,19 @@ function LinkDataForm({
 		},
 	});
 
+	const getGraphDetails = async (url: string) => {
+		const response = await fetch(
+			`/api/og-scrape?url=${encodeURIComponent(url)}`
+		);
+		if (response.ok) {
+			const data = await response.json();
+			console.log(data);
+			form.setValue("title", data.ogTitle);
+			form.setValue("description", data.ogDescription);
+			form.setValue("imgSrc", data.ogImage[0].url);
+		}
+	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -56,7 +69,11 @@ function LinkDataForm({
 										placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 										{...field}
 									/>
-									<Button variant={"secondary"} type="button">
+									<Button
+										onClick={() => getGraphDetails(field.value)}
+										variant={"secondary"}
+										type="button"
+									>
 										Fetch
 									</Button>
 								</div>
